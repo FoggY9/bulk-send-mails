@@ -6,13 +6,14 @@ require("dotenv").config()
 
 
 sendMail()
-async function sendMail(){
+function sendMail(){
 
 let addresses = readAddresses();
 let text = readinput()
 
   //login in mail
-  let transporter = nodemailer.createTransport({
+  // you can get a fake smtp mail by https://ethereal.email/create
+  const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
     port: 587,
     auth: {
@@ -21,7 +22,7 @@ let text = readinput()
     }
     });
 
-    const info = await transporter.sendMail({
+    const info = transporter.sendMail({
       from: process.env['USER'],
       to: addresses,
       subject: 'Nodemailer Project',
