@@ -1,15 +1,11 @@
 // importing modules
-const {readFileSync} = require("fs")
-const readline = require("readline-sync")
 const nodemailer = require("nodemailer")
 require("dotenv").config()
+const {subject, content, mailList} = require("./info.json")
 
 
 sendMail()
 function sendMail(){
-
-let addresses = readAddresses();
-let text = readinput()
 
   //login in mail
   // you can get a fake smtp mail by https://ethereal.email/create
@@ -22,26 +18,15 @@ let text = readinput()
     }
     });
 
+    // sending mail
     const info = transporter.sendMail({
       from: process.env['USER'],
-      to: addresses,
-      subject: 'Nodemailer Project',
-      text: text
+      to: mailList,
+      subject: subject,
+      text: content
     });
 
+    // result
 console.log("accepted: " + info.accepted)
 console.log("declined: " + info.rejected);
-}
-function readAddresses() {
-
-    let buffer = readFileSync("adresses.txt");
-    let string = buffer.toString();
-    return string.split("\n");
-}
-function readinput() {
-
-  readline.question('What is your Message? ', (input) => {
-    return input
-});
-
 }
